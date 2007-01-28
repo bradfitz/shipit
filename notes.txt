@@ -1,0 +1,22 @@
+$ shipit
+  - looks at project at $CWD (thus $CWD/.shipit.conf)
+
+$ shipit $PATH
+  - cds to $PATH
+  - looks at project at $PATH (thus $PATH/.shipit.conf)
+
+Step modules:
+
+   ShipIt::Step::FindVersion
+        -- next free number or explicitly given version.  if explicit,
+           complain if already on CPAN or already tagged.
+   ShipIt::Step::ChangeVersion
+        -- change version on disk, wherever that is.
+   ShipIt::Step::CheckChangeLog
+        -- changelog updated?
+   ShipIt::Step::DistTest
+        -- make clean
+        -- make disttest
+   ShipIt::Step::CommitVersion
+   ShipIt::Step::TagSVN
+   ShipIt::Step::CPANUpload
