@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+use strict;
+use lib 'lib';
+use Cwd;
+use ShipIt::Conf;
+use ShipIt::State;
+
+my $dir = shift || getcwd;
+die "Usage: shipit [<dir>]\n" unless -d $dir;
+chdir($dir) or die "Failed to chdir to $dir\n";
+die "No .shipit configuration file in $dir\n" unless -e ".shipit";
+
+my $conf  = ShipIt::Conf->parse(".shipit");
+my $state = ShipIt::State->new;
+
+foreach my $step ($conf->steps) {
+    $step->run($state);
+}
