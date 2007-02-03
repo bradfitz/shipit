@@ -12,13 +12,12 @@
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME                    => 'ShipIt',
-    VERSION_FROM            => 'lib/ShipIt.pm',
-    AUTHOR                  => 'Brad Fitzpatrick <brad@danga.com>',
-    ABSTRACT_FROM           => 'lib/ShipIt.pm',
-
-    PREREQ_PM               => {
-    },
+              NAME           => 'ShipIt',
+              VERSION_FROM   => 'lib/ShipIt.pm',
+              AUTHOR         => 'Brad Fitzpatrick <brad@danga.com>',
+              ABSTRACT_FROM  => 'lib/ShipIt.pm',
+              PREREQ_PM      => {
+              },
               );
 
 
