@@ -8,9 +8,9 @@ sub new {
     return $self;
 }
 
+# should override, if step needs configuration
 sub init {
     my ($self, $conf) = @_;
-    warn "Running NO-OP base class 'init' for step $self\n";
 }
 
 # return if okay, die if problems.
