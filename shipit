@@ -3,8 +3,7 @@
 use strict;
 use lib 'lib';
 use Cwd;
-use ShipIt::Conf;
-use ShipIt::State;
+use ShipIt;
 
 my $dir = shift || getcwd;
 die "Usage: shipit [<dir>]\n" unless -d $dir;
@@ -15,5 +14,6 @@ my $conf  = ShipIt::Conf->parse(".shipit");
 my $state = ShipIt::State->new;
 
 foreach my $step ($conf->steps) {
+    warn "Running step $step\n";
     $step->run($state);
 }

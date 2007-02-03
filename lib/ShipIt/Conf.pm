@@ -41,7 +41,16 @@ sub steps {
     my $steps = $self->value("steps") || "FindVersion";
     $self->die_if_unknown_keys;
 
-    return ();
+    my @ret;
+    foreach my $sname (split(/\s*,\s*/, $steps)) {
+        die "Bogus step name: $sname\n" unless $sname =~ /^[\w+:]+$/;
+        my $class = "ShipIt::Step::$sname";
+        my $rv = eval "use $class; 1;";
+        die "Failed to load step module $class: $@\n" unless $rv;
+        push @ret, $class->new($self);
+    }
+
+    return @ret;
 }
 
 1;
