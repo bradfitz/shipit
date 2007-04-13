@@ -1,5 +1,3 @@
-#steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, CommitVersion, Tag, Release
-steps = FindVersion
-
+steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, Release
 
 #Release.method = ~/bin/cpan-upload-http

@@ -7,6 +7,16 @@ sub new {
     return bless {}, $class;
 }
 
+sub set_version {
+    my ($self, $ver) = @_;
+    $self->{version} = $ver;
+}
+
+sub version {
+    my ($self, $ver) = @_;
+    return $self->{version} or die "No version yet set";
+}
+
 # returns project-type instance (created on first access)
 sub pt {
     my $self = shift;

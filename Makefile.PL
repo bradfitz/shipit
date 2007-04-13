@@ -14,9 +14,11 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
               NAME           => 'ShipIt',
               VERSION_FROM   => 'lib/ShipIt.pm',
+              EXE_FILES      => ['shipit'],
               AUTHOR         => 'Brad Fitzpatrick <brad@danga.com>',
               ABSTRACT_FROM  => 'lib/ShipIt.pm',
               PREREQ_PM      => {
+                  'Term::ReadLine' => 0,
               },
               );
 
