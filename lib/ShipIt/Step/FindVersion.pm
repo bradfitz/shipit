@@ -1,9 +1,7 @@
 package ShipIt::Step::FindVersion;
 use strict;
 use base 'ShipIt::Step';
-use Term::ReadLine;
-
-our $term = Term::ReadLine->new("verprompt");
+use ShipIt::Util qw($term);
 
 # return if okay, die if problems.
 sub run {

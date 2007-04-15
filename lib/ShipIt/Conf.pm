@@ -39,7 +39,6 @@ sub die_if_unknown_keys {
 sub steps {
     my $self = shift;
     my $steps = $self->value("steps") || "FindVersion";
-    $self->die_if_unknown_keys;
 
     my @ret;
     foreach my $sname (split(/\s*,\s*/, $steps)) {
@@ -50,6 +49,7 @@ sub steps {
         push @ret, $class->new($self);
     }
 
+    $self->die_if_unknown_keys;
     return @ret;
 }
 
