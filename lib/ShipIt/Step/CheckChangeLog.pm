@@ -33,8 +33,12 @@ sub run {
             # else just proceed, hoping we find one of the defaults...
             next;
         }
-        $self->check_file_for_version($file, $state->version);
+        $seen++;
 
+        # already have a ChangeLog entry?
+        next if $self->check_file_for_version($file, $state->version);
+
+        # else, ask if they want to edit the file to correct it.
         if (bool_prompt("Edit file?", "y")) {
             edit_file($file);
         } else {
@@ -43,7 +47,6 @@ sub run {
 
         $self->check_file_for_version($file, $state->version)
             or die "Aborting.\n";
-        $seen++;
     }
     die "No changelog file.  Either make one named one of {@{$self->{files}}}, or explicitly list 1+ in a comma-separated list using the configuration key 'CheckChangeLog.files'\n" unless $seen;
 }

@@ -12,8 +12,9 @@ sub new {
         die "Failed to run svn, or this isn't an svn working copy";
     }
     $self->{url} = $1;
-    warn "in url $self->{url}\n";
 
+    $self->{dir_exists} = {};  # url -> 1 (url exists, learned from svn ls)
+    $self->{dir_listed} => {}; # url -> 1 (have we do svn ls on url?)
     return $self;
 }
 
@@ -70,11 +71,23 @@ sub tag_version {
 sub exists_tagged_version {
     my ($self, $ver) = @_;
     my $url = $self->_tag_url_of_version($ver);
-    my $ans = system("svn", "-q", "ls", $url) ? 0 : 1;
-    warn "does $url exist? ans=$ans\n";
-    return $ans;
+    die "bogus chars in svn url" if $url =~ /[ \`\&\;]/;
+
+    my $tag_base = $url;
+    $tag_base =~ s!/[^/]+$!! or die;
+    unless ($self->{dir_listed}{$tag_base}++) {
+        print "checking $tag_base ...\n";
+        foreach my $f (`svn ls $tag_base`) {
+            chomp $f;
+            $self->{dir_exists}{"$tag_base/$f"} = 1;
+            print "$tag_base/$f exists!\n";
+        }
+    }
+
+    return $self->{dir_exists}{$url} || $self->{dir_exists}{"$url/"};
 }
 
+# returns tag url of a given version, with no trailing slash
 sub _tag_url_of_version {
     my ($self, $ver) = @_;
     my $url = $self->{tagpattern};
@@ -83,6 +96,7 @@ sub _tag_url_of_version {
     }
     $url .= "%v" unless $url =~ /\%v/i;
     $url =~ s/\%v/$ver/ig;
+    $url =~ s!/+$!!;
     return $url;
 }
 
