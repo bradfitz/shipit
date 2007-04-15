@@ -68,4 +68,10 @@ sub update_version {
     die "perl update not done";
 }
 
+# returns 1 if a make disttest succeeds.
+sub disttest {
+    my $self = shift;
+    return system("make", "disttest") ? 0 : 1;
+}
+
 1;

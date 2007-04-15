@@ -32,15 +32,18 @@ sub new {
 }
 
 sub commit {
-    die "ABSTRACT";
+    my ($self, $msg) = @_;
+    die "ABSTRACT commit method for $self";
 }
 
 sub tag_version {
-    die "ABSTRACT";
+    my ($self, $ver, $msg) = @_;
+    die "ABSTRACT commit tag_version for $self";
 }
 
 sub exists_tagged_version {
-    die "ABSTRACT";
+    my ($self, $ver) = @_;
+    die "ABSTRACT exists_tagged_version for $self";
 }
 
 1;

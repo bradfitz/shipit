@@ -1,6 +1,7 @@
 package ShipIt::VC::SVN;
 use strict;
 use base 'ShipIt::VC';
+use File::Temp ();
 
 sub new {
     my ($class, $conf) = @_;
@@ -105,6 +106,16 @@ sub _tag_base {
     my $url = $self->{url};
     $url =~ s!/trunk.*!/tags/!;
     return $url;
+}
+
+sub commit {
+    my ($self, $msg) = @_;
+
+    my $tmp_fh = File::Temp->new(UNLINK => 1, SUFFIX => '.msg');
+    print $tmp_fh $msg;
+    my $tmp_fn = "$tmp_fh";
+    system("svn", "ci", "--file", $tmp_fn) and die "Commit failed.\n";
+
 }
 
 1;
