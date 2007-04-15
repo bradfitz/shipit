@@ -1,10 +1,13 @@
 package ShipIt::State;
 use strict;
 use ShipIt::ProjectType::Perl;
+use ShipIt::VC;
 
 sub new {
-    my ($class) = @_;
-    return bless {}, $class;
+    my ($class, $conf) = @_;
+    my $self = bless {}, $class;
+    $self->{vc} = ShipIt::VC->new($conf);
+    return $self;
 }
 
 sub set_version {
@@ -27,6 +30,12 @@ sub pt {
     }
 
     die "Unknown project type!  Can't find Makefile.PL or (future:) autoconf, etc..";
+}
+
+# returns a version-control-type instance (created on first access)
+sub vc {
+    my $self = shift;
+    return $self->{vc};
 }
 
 1;

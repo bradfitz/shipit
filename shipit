@@ -11,7 +11,7 @@ chdir($dir) or die "Failed to chdir to $dir\n";
 die "No .shipit configuration file in $dir\n" unless -e ".shipit";
 
 my $conf  = ShipIt::Conf->parse(".shipit");
-my $state = ShipIt::State->new;
+my $state = ShipIt::State->new($conf);
 
 foreach my $step ($conf->steps) {
     warn "Running step $step\n";

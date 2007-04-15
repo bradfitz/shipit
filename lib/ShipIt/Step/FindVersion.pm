@@ -7,7 +7,10 @@ use ShipIt::Util qw($term);
 sub run {
     my ($self, $state) = @_;
     my $ver = $state->pt->current_version;
-    print "Current version is: $ver\n";
+
+    my $is_tagged = $state->vc->exists_tagged_version($ver);
+
+    print "Current version is: $ver (is_tagged=$is_tagged)\n";
     my $newver = $term->readline("Next/release version? ")
         or die "Aborted.\n";
     $state->set_version($newver);
