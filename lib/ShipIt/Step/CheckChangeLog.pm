@@ -25,7 +25,6 @@ sub init {
 sub run {
     my ($self, $state) = @_;
 
-    my $seen = 0;
     foreach my $file (@{ $self->{files} }) {
         unless (-e $file) {
             # die if they explicitly listed a changelog file,
@@ -33,7 +32,7 @@ sub run {
             # else just proceed, hoping we find one of the defaults...
             next;
         }
-        $seen++;
+        $state->add_changelog_file($file);
 
         # already have a ChangeLog entry?
         next if $self->check_file_for_version($file, $state->version);
@@ -48,7 +47,7 @@ sub run {
         $self->check_file_for_version($file, $state->version)
             or die "Aborting.\n";
     }
-    die "No changelog file.  Either make one named one of {@{$self->{files}}}, or explicitly list 1+ in a comma-separated list using the configuration key 'CheckChangeLog.files'\n" unless $seen;
+    die "No changelog file.  Either make one named one of {@{$self->{files}}}, or explicitly list 1+ in a comma-separated list using the configuration key 'CheckChangeLog.files'\n" unless $state->changelog_files;;
 }
 
 sub check_file_for_version {

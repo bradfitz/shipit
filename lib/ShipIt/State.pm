@@ -7,6 +7,7 @@ sub new {
     my ($class, $conf) = @_;
     my $self = bless {}, $class;
     $self->{vc} = ShipIt::VC->new($conf);
+    $self->{changelogs} = [];
     return $self;
 }
 
@@ -36,6 +37,16 @@ sub pt {
 sub vc {
     my $self = shift;
     return $self->{vc};
+}
+
+sub add_changelog_file {
+    my ($self, $file) = @_;
+    push @{$self->{changelogs}}, $file;
+}
+
+sub changelog_files {
+    my $self = shift;
+    return @{$self->{changelogs}};
 }
 
 1;

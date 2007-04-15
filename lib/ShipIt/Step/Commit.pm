@@ -4,9 +4,13 @@ use base 'ShipIt::Step';
 
 sub run {
     my ($self, $state) = @_;
+    my $vc  = $state->vc;
+    my $ver = $state->version;
 
-    my $vc = $state->vc;
-    $vc->commit("Auto-commit for version " . $state->version);
+    my $msg = "Checking in changes prior to tagging of version $ver.  Changelog diff is:\n\n";
+
+    $vc->commit($msg);
+
 }
 
 1;
