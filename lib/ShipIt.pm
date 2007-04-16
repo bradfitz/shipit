@@ -51,7 +51,7 @@ can configure, see L<ShipIt::Conf>.
 
 From the root directory of your project, where the shipit config file is, type B<shipit>:
 
-   you@host:~/proj$ B<shipit>
+   you@host:~/proj$ shipit
 
 And then it does the rest, after verifying with you the version number you want to release.
 
