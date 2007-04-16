@@ -9,6 +9,10 @@ sub run {
 
     my $msg = "Checking in changes prior to tagging of version $ver.  Changelog diff is:\n\n";
 
+    foreach my $f ($state->changelog_files) {
+        $msg .= $vc->local_diff($f);
+    }
+
     $vc->commit($msg);
 
 }

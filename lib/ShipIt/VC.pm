@@ -46,10 +46,9 @@ sub exists_tagged_version {
     die "ABSTRACT exists_tagged_version for $self";
 }
 
+sub local_diff {
+    my ($self, $file) = @_;
+    die "ABSTRACT local_diff for $self";
+}
+
 1;
-
-
-
-
-
-

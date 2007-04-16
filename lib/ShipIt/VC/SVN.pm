@@ -110,12 +110,15 @@ sub _tag_base {
 
 sub commit {
     my ($self, $msg) = @_;
-
     my $tmp_fh = File::Temp->new(UNLINK => 1, SUFFIX => '.msg');
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";
     system("svn", "ci", "--file", $tmp_fn) and die "Commit failed.\n";
+}
 
+sub local_diff {
+    my ($self, $file) = @_;
+    return `svn diff $file`;
 }
 
 1;
