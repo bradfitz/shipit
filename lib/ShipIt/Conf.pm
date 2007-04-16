@@ -28,7 +28,7 @@ sub write_template {
 
     open (my $fh, ">$file") or die "Error opening for write config file $file: $!\n";
     my $c = "# auto-generated shipit config file.
-steps: $steps
+steps = $steps
 
 # svn.tagpattern = MyProj-%v
 # svn.tagpattern = http://code.example.com/svn/tags/MyProj-%v
@@ -61,7 +61,7 @@ sub default_steps {
                    DistTest
                    Commit
                    Tag
-                   Release
+                   MakeDist
                    ));
 }
 
