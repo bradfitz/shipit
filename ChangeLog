@@ -1,3 +1,8 @@
+	* make UploadCPAN fail earlier if MakeDist wasn't done.
+	* make ProjectType::MakeMaker's disttest ignore the .shipit file,
+	  so you don't need to put it in MANIFEST.SKIP (which is often the only
+	  thing it contains, in addition to all the boilerplate stuff)
+
 0.43
 	* default config as written out with --write-config had syntax error,
 	  and old list of default plugins
