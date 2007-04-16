@@ -10,6 +10,11 @@ sub run {
 
     my $is_tagged = $state->vc->exists_tagged_version($ver);
 
+    # are they just compulsively running shipit?
+    if ($is_tagged && ! $state->vc->are_local_diffs) {
+        die "No local changes, and version on disk is already tagged.  Nothing to do.\n";
+    }
+
     print "Current version is: $ver\n";
     my $def = "";
 

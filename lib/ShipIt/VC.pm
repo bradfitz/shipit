@@ -84,4 +84,15 @@ sub local_diff {
     die "ABSTRACT local_diff for $self";
 }
 
+=head2 are_local_diffs
+
+Returns bool, if any files on disk are uncommitted.
+
+=cut
+
+sub are_local_diffs {
+    my ($self) = @_;
+    die "ABSTRACT are_local_diffs for $self";
+}
+
 1;

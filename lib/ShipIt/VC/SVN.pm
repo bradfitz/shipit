@@ -143,6 +143,12 @@ sub tag_version {
         and die "Tagging of version '$ver' failed.\n";
 }
 
+sub are_local_diffs {
+    my ($self) = @_;
+    my $diff = `svn diff`;
+    return $diff =~ /\S/ ? 1 : 0;
+}
+
 1;
 
 
