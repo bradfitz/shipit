@@ -121,6 +121,16 @@ sub local_diff {
     return `svn diff $file`;
 }
 
+sub tag_version {
+    my ($self, $ver, $msg) = @_;
+    $msg ||= "Tagging version $ver.\n";
+    my $tmp_fh = File::Temp->new(UNLINK => 1, SUFFIX => '.msg');
+    print $tmp_fh $msg;
+    my $tmp_fn = "$tmp_fh";
+    my $tag_url = $self->_tag_url_of_version($ver);
+    system("svn", "cp", "--file", $self->{url}, $tag_url) and die "Tagging of version '$ver' failed.\n";
+}
+
 1;
 
 
