@@ -46,4 +46,7 @@ sub changelog_files {
 sub set_dry_run { $_[0]{dryrun} = $_[1] }
 sub dry_run     { $_[0]{dryrun}         }
 
+sub set_distfile { $_[0]{distfile} = $_[1] }
+sub distfile     { $_[0]{distfile}         }
+
 1;

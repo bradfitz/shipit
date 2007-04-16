@@ -20,6 +20,7 @@ lib/ShipIt/Step/Commit.pm
 lib/ShipIt/Step/DistTest.pm
 lib/ShipIt/Step/MakeDist.pm
 lib/ShipIt/Step/Tag.pm
+lib/ShipIt/Step/UploadCPAN.pm
 lib/ShipIt/VC.pm
 lib/ShipIt/VC/SVN.pm
 t/svn-tagpattern.t

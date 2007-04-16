@@ -71,4 +71,18 @@ sub disttest {
     die "ABSTRACT distest in $self\n";
 }
 
+=head2 makedist
+
+Runs "make dist" or equivalent, to build the resultant archive to give
+to users.  Dies on failure, or returns the path (relative or absolute)
+to the dist file.
+
+=cut
+
+sub makedist {
+    my ($self) = @_;
+    die "ABSTRACT makedist in $self\n";
+}
+
+
 1;

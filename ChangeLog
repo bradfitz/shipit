@@ -1,39 +1,22 @@
+0.42
+	* first version able to release itself to CPAN
 0.41
 	* rename unimplemented "Release" step to "MakeDist"
-
 0.40
 	* stop if they're trying to run shipit and no changes to be shipped
-
 0.39
 	* respecting previously-added dry-run option
 0.38
 	* make Perl projectype cleanup after itself in disttest
-	
 0.37
 	* more docs, auto-write out config file
 	* make VC::SVN fail if locally-added files, and recommend
 	  running "svn pe svn:ignore ."
-
 0.36
 	* the documentation release!  and clean some noise.
-
 0.35
 	* the version that can properly tag releases
-
 0.34
 	* the release that can do commit messages from ChangeLog diffs
-
 0.33
 	* test release
-	
-0.32 - 2007-04-15
-	* the CheckChangeLog step mostly works
-
-0.31 - 2006-07-12
-	* foo
-	
-0.30
-	* foo
-	
-0.29
-    * foo

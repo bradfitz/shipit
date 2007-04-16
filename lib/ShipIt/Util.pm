@@ -3,7 +3,7 @@ use strict;
 use Carp qw(croak confess);
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term);
+our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var);
 use Term::ReadLine ();
 
 our $term = Term::ReadLine->new("prompt");
@@ -27,9 +27,9 @@ sub bool_prompt {
     my ($q, $def) = @_;
     $def = uc($def || "");
     die "bogus default" unless $def =~ /^[YN]?$/;
-    my $opts = "[y/n]";
-    $opts = "[Y/n]" if $def eq "Y";
-    $opts = "[y/N]" if $def eq "N";
+    my $opts = " [y/n]";
+    $opts = " [Y/n]" if $def eq "Y";
+    $opts = " [y/N]" if $def eq "N";
     my $to_bool = sub {
         my $yn = shift;
         return 1 if $yn =~ /^y/i;
@@ -37,7 +37,7 @@ sub bool_prompt {
         return undef;
     };
     while (1) {
-        my $ans = $term->readline("$q $opts");
+        my $ans = $term->readline("$q$opts ");
         my $bool = $to_bool->($ans || $def);
         return $bool if defined $bool;
         warn "Please answer 'y' or 'n'\n";
@@ -48,6 +48,13 @@ sub edit_file {
     my ($file) = @_;
     my $editor = $ENV{"EDITOR"} || "vi";
     system($editor, $file);
+}
+
+sub make_var {
+    my $var = shift;
+    my $file = slurp("Makefile");
+    return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)/m;
+    return $1;
 }
 
 1;
