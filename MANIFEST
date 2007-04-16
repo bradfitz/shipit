@@ -8,6 +8,19 @@ lib/ShipIt/Step/FindVersion.pm
 lib/ShipIt/Util.pm
 Makefile.PL
 MANIFEST			This list of files
+MANIFEST.SKIP
 META.yml
 notes.txt
 shipit
+ChangeLog
+lib/ShipIt/ProjectType/Perl/MakeMaker.pm
+lib/ShipIt/ProjectType/Perl/ModuleBuild.pm
+lib/ShipIt/Step/ChangeVersion.pm
+lib/ShipIt/Step/CheckChangeLog.pm
+lib/ShipIt/Step/Commit.pm
+lib/ShipIt/Step/DistTest.pm
+lib/ShipIt/Step/Release.pm
+lib/ShipIt/Step/Tag.pm
+lib/ShipIt/VC.pm
+lib/ShipIt/VC/SVN.pm
+t/svn-tagpattern.t

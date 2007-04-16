@@ -1,3 +1,6 @@
+0.38
+	* make Perl projectype cleanup after itself in disttest
+	
 0.37
 	* more docs, auto-write out config file
 	* make VC::SVN fail if locally-added files, and recommend
