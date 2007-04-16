@@ -1,4 +1,4 @@
-package ShipIt::Step::Release;
+package ShipIt::Step::MakeDist;
 use strict;
 use base 'ShipIt::Step';
 

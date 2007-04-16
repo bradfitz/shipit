@@ -1,6 +1,10 @@
-steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, Release
+steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist
+
+# if directory, where the normal "make dist" puts its file.
+#MakeDist.destination = ~/shipit-dist
 
 svn.tagpattern = ShipIt-%v
+
 
 #Release.method = ~/bin/cpan-upload-http
 

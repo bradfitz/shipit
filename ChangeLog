@@ -1,3 +1,6 @@
+0.41
+	* rename unimplemented "Release" step to "MakeDist"
+
 0.40
 	* stop if they're trying to run shipit and no changes to be shipped
 

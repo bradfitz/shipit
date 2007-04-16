@@ -18,7 +18,7 @@ lib/ShipIt/Step/ChangeVersion.pm
 lib/ShipIt/Step/CheckChangeLog.pm
 lib/ShipIt/Step/Commit.pm
 lib/ShipIt/Step/DistTest.pm
-lib/ShipIt/Step/Release.pm
+lib/ShipIt/Step/MakeDist.pm
 lib/ShipIt/Step/Tag.pm
 lib/ShipIt/VC.pm
 lib/ShipIt/VC/SVN.pm
