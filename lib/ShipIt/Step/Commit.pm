@@ -13,6 +13,11 @@ sub run {
         $msg .= $vc->local_diff($f);
     }
 
+    if ($state->dry_run) {
+        print "DRY-RUN.  Would have committed message of:\n----------------\n$msg\n-----------\n";
+        return;
+    }
+
     $vc->commit($msg);
 
 }

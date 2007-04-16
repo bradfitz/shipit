@@ -35,6 +35,7 @@ unless (-e CONFFILE) {
 
 my $conf  = ShipIt::Conf->parse(CONFFILE);
 my $state = ShipIt::State->new($conf);
+$state->set_dry_run($opt_dry);
 
 foreach my $step ($conf->steps) {
     warn "Running step $step\n";

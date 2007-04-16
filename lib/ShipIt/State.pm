@@ -43,4 +43,7 @@ sub changelog_files {
     return @{$self->{changelogs}};
 }
 
+sub set_dry_run { $_[0]{dryrun} = $_[1] }
+sub dry_run     { $_[0]{dryrun}         }
+
 1;

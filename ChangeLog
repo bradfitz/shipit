@@ -1,3 +1,5 @@
+0.39
+	* respecting previously-added dry-run option
 0.38
 	* make Perl projectype cleanup after itself in disttest
 	
