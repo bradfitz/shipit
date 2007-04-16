@@ -77,11 +77,9 @@ sub exists_tagged_version {
     my $tag_base = $url;
     $tag_base =~ s!/[^/]+$!! or die;
     unless ($self->{dir_listed}{$tag_base}++) {
-        print "checking $tag_base ...\n";
         foreach my $f (`svn ls $tag_base`) {
             chomp $f;
             $self->{dir_exists}{"$tag_base/$f"} = 1;
-            print "$tag_base/$f exists!\n";
         }
     }
 
