@@ -1,3 +1,6 @@
+0.35
+	* the version that can properly tag releases
+
 0.34
 	* the release that can do commit messages from ChangeLog diffs
 

@@ -128,7 +128,8 @@ sub tag_version {
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";
     my $tag_url = $self->_tag_url_of_version($ver);
-    system("svn", "cp", "--file", $self->{url}, $tag_url) and die "Tagging of version '$ver' failed.\n";
+    system("svn", "copy", "--file", $tmp_fn, $self->{url}, $tag_url)
+        and die "Tagging of version '$ver' failed.\n";
 }
 
 1;
