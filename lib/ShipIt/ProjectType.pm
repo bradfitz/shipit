@@ -1,5 +1,6 @@
 package ShipIt::ProjectType;
 use strict;
+use ShipIt::ProjectType::Perl;
 
 =head1 NAME
 
@@ -25,7 +26,16 @@ needed soon for memcached releases, so will come in time.
 
 =cut
 
-sub new { bless {}, $_[0] }
+sub new {
+    my ($class) = @_;
+    my $pt;
+
+    # returns undef if not a perl project,
+    $pt = ShipIt::ProjectType::Perl->new;
+    return $pt if $pt;
+
+    die "Unknown project type.  Can't find Makefile.PL, Build.PL, or (future:) autoconf, etc..";
+}
 
 =head2 find_version
 
@@ -45,7 +55,7 @@ Updates version number on disk with provided new version.
 
 sub update_version {
     my ($self, $newver) = @_;
-    die "ABSTRACT update_version in $_[0]\n";
+    die "ABSTRACT update_version in $self\n";
 }
 
 =head2 disttest
@@ -55,5 +65,10 @@ build & test on the extracted archive.  Returns true if everything
 succeeds, or dies on failure.
 
 =cut
+
+sub disttest {
+    my ($self) = @_;
+    die "ABSTRACT distest in $self\n";
+}
 
 1;

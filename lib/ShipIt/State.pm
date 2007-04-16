@@ -24,13 +24,7 @@ sub version {
 # returns project-type instance (created on first access)
 sub pt {
     my $self = shift;
-    return $self->{pt} if $self->{pt};
-
-    if (-e "Makefile.PL") {
-        return $self->{pt} = ShipIt::ProjectType::Perl->new;
-    }
-
-    die "Unknown project type!  Can't find Makefile.PL or (future:) autoconf, etc..";
+    return $self->{pt} ||= ShipIt::ProjectType->new;
 }
 
 # returns a version-control-type instance (created on first access)

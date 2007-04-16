@@ -2,6 +2,21 @@ package ShipIt::ProjectType::Perl;
 use strict;
 use base 'ShipIt::ProjectType';
 use ShipIt::Util qw(slurp write_file);
+use ShipIt::ProjectType::Perl::MakeMaker;
+use ShipIt::ProjectType::Perl::ModuleBuild;
+
+# factory when called directly.
+# returns undef if not a perl project, otherwise returns
+# ::MakeMaker or ::ModuleBuild instance.
+sub new {
+    my ($class) = @_;
+    if ($class eq "ShipIt::ProjectType::Perl") {
+        return ShipIt::ProjectType::Perl::ModuleBuild->new if -e "Build.PL";
+        return ShipIt::ProjectType::Perl::MakeMaker->new   if -e "Makefile.PL";
+        return undef;
+    }
+    return bless {}, $class;
+}
 
 # fields:
 #   version -- if defined, cached current version
@@ -66,12 +81,6 @@ sub update_version {
     }
 
     die "perl update not done";
-}
-
-# returns 1 if a make disttest succeeds.
-sub disttest {
-    my $self = shift;
-    return system("make", "disttest") ? 0 : 1;
 }
 
 1;

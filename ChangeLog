@@ -1,3 +1,8 @@
+0.37
+	* more docs, auto-write out config file
+	* make VC::SVN fail if locally-added files, and recommend
+	  running "svn pe svn:ignore ."
+
 0.36
 	* the documentation release!  and clean some noise.
 

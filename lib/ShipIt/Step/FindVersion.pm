@@ -23,7 +23,7 @@ sub run {
 
     # check to make sure they're not releasing a version that's already tagged
     if ($state->vc->exists_tagged_version($newver)) {
-        die "Sorry, version '$ver' is already tagged.  Stopping.\n";
+        die "Sorry, version '$newver' is already tagged.  Stopping.\n";
     }
 
     $state->set_version($newver);

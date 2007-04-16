@@ -4,16 +4,67 @@ use strict;
 use lib 'lib';
 use Cwd;
 use ShipIt;
+use Getopt::Long;
+
+use constant CONFFILE => ".shipit";
+
+my $opt_dry;
+my $opt_wc;
+exit(1) unless
+    GetOptions("dry-run|n"    => \$opt_dry,
+               "write-config" => \$opt_wc,
+               );
 
 my $dir = shift || getcwd;
 die "Usage: shipit [<dir>]\n" unless -d $dir;
 chdir($dir) or die "Failed to chdir to $dir\n";
-die "No .shipit configuration file in $dir\n" unless -e ".shipit";
 
-my $conf  = ShipIt::Conf->parse(".shipit");
+if ($opt_wc) {
+    die "This directory already has a " . CONFFILE . " config file.  I won't overwrite it.  Aborting.\n"
+        if -e CONFFILE;
+    ShipIt::Conf->write_template(CONFFILE);
+    ShipIt::Util::edit_file(CONFFILE);
+    print "Config file written.\n";
+    exit(0);
+}
+
+unless (-e CONFFILE) {
+    die "No " . CONFFILE . " configuration file in $dir.\n" .
+        "Re-run with --write-config to get default config in \$EDITOR.\n";
+}
+
+my $conf  = ShipIt::Conf->parse(CONFFILE);
 my $state = ShipIt::State->new($conf);
 
 foreach my $step ($conf->steps) {
     warn "Running step $step\n";
     $step->run($state);
 }
+
+=head1 NAME
+
+shipit - Executable for ShipIt
+
+=head1 SYNOPSIS
+
+ $ shipit
+ $ shipit --dry-run       # or -n
+ $ shipit --write-config
+
+=head1 SEE ALSO
+
+L<ShipIt>
+
+L<ShipIt::Conf>
+
+=head1 AUTHOR
+
+Brad Fitzpatrick - brad@danga.com
+
+=head1 COPYRIGHT, LICENSE, and WARRANTY
+
+ShipIt is copyright 2007 by SixApart, Ltd.
+
+It's licensed under the same terms as Perl itself.
+
+ShipIt comes with no warranty, either expressed or implied.

@@ -4,8 +4,9 @@ use vars qw($VERSION);
 use ShipIt::Conf;
 use ShipIt::State;
 use ShipIt::VC;
+use ShipIt::Util;
 
-$VERSION = '0.36';
+$VERSION = '0.37';
 
 =head1 NAME
 

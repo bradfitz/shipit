@@ -21,7 +21,7 @@ sub new {
 
 =head1 NAME
 
-ShipIt::VC::SVN -- ShipIT's subversion support 
+ShipIt::VC::SVN -- ShipIT's subversion support
 
 =head1 CONFIGURATION
 
@@ -108,6 +108,19 @@ sub _tag_base {
 
 sub commit {
     my ($self, $msg) = @_;
+
+    # any locally-added files not in svn?
+    my $unk;
+    foreach (`svn st`) {
+        next unless /^\?/;
+        $unk .= $_;
+    }
+    if ($unk) {
+        die "Unknown local files:\n$unk\n\nUpdate svn:ignore with:\n\tsvn pe svn:ignore .\n";
+        exit(1);
+    }
+
+    # commit
     my $tmp_fh = File::Temp->new(UNLINK => 1, SUFFIX => '.msg');
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";

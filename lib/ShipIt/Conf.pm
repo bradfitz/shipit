@@ -22,6 +22,23 @@ sub parse {
     return $self;
 }
 
+sub write_template {
+    my ($class, $file) = @_;
+    my $steps = $class->default_steps;
+
+    open (my $fh, ">$file") or die "Error opening for write config file $file: $!\n";
+    my $c = "# auto-generated shipit config file.
+steps: $steps
+
+# svn.tagpattern = MyProj-%v
+# svn.tagpattern = http://code.example.com/svn/tags/MyProj-%v
+
+# CheckChangeLog.files = ChangeLog, MyProj.CHANGES
+";
+    print $fh $c;
+    close($fh) or die;
+}
+
 sub value {
     my ($self, $key) = @_;
     $self->{asked}{$key} = 1;
@@ -35,10 +52,23 @@ sub die_if_unknown_keys {
     die "Unknown keys in configuration file: " . join(", ", @unknown) . "\n";
 }
 
+sub default_steps {
+    return join(", ",
+                qw(
+                   FindVersion
+                   ChangeVersion
+                   CheckChangeLog
+                   DistTest
+                   Commit
+                   Tag
+                   Release
+                   ));
+}
+
 # returns ShipIt::Step::Foo instances
 sub steps {
     my $self = shift;
-    my $steps = $self->value("steps") || "FindVersion";
+    my $steps = $self->value("steps") || $self->default_steps;
 
     my @ret;
     foreach my $sname (split(/\s*,\s*/, $steps)) {
