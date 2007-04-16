@@ -1,6 +1,7 @@
 package ShipIt::ProjectType;
 use strict;
 use ShipIt::ProjectType::Perl;
+use ShipIt::ProjectType::AutoConf;
 
 =head1 NAME
 
@@ -10,9 +11,6 @@ ShipIt::ProjectType - abstract base class for different types of projects
 
 Different types of projects (Perl, C, ...) have different conventions
 and quirks which this abstract base class aims to hide.
-
-Currently only Perl is implemented, but an autoconf-y C version is
-needed soon for memcached releases, so will come in time.
 
 =head1 SYNOPSIS
 
@@ -30,11 +28,21 @@ sub new {
     my ($class) = @_;
     my $pt;
 
-    # returns undef if not a perl project,
-    $pt = ShipIt::ProjectType::Perl->new;
-    return $pt if $pt;
+    # when called as a factory, return the appropriate subtype
+    if ($class eq "ShipIt::ProjectType") {
+        # returns undef if not a perl project,
+        $pt = ShipIt::ProjectType::Perl->new;
+        return $pt if $pt;
 
-    die "Unknown project type.  Can't find Makefile.PL, Build.PL, or (future:) autoconf, etc..";
+        $pt = ShipIt::ProjectType::AutoConf->new;
+        return $pt if $pt;
+
+        die "Unknown project type.  Can't find Makefile.PL, Build.PL, configure.ac, etc..";
+    }
+
+    # if we're being called via ->SUPER::new from child class,
+    # give them their blessed object
+    return bless {}, $class;
 }
 
 =head2 find_version

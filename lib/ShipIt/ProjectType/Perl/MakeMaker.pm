@@ -20,10 +20,14 @@ sub disttest {
     my @missing    = manicheck;
     my @extra      = filecheck;
 
-    # I'm getting sick of making MANIFEST.SKIP files just for the .shipit
-    # conf file, so let's ignore that extra file, since that tends to be the
-    # only one....
-    @extra = grep { $_ ne ".shipit" } @extra;
+    # I'm getting sick of making MANIFEST.SKIP files just for the
+    # .shipit conf file and dh-make-perl stuff, so let's ignore those
+    my %ignore = map { $_ => 1 } qw(
+                                    .shipit
+                                    install-stamp
+                                    build-stamp
+                                    );
+    @extra = grep { ! $ignore{$_} } @extra;
 
     my $list = sub {
         join('', map { "$_\n" } @_);

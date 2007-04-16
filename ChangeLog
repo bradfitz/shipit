@@ -1,7 +1,10 @@
+0.44
 	* make UploadCPAN fail earlier if MakeDist wasn't done.
 	* make ProjectType::MakeMaker's disttest ignore the .shipit file,
 	  so you don't need to put it in MANIFEST.SKIP (which is often the only
 	  thing it contains, in addition to all the boilerplate stuff)
+	* don't upload to CPAN in dry-run mode
+	* ProjectType::AutoConf support (releases memcached, at least)
 
 0.43
 	* default config as written out with --write-config had syntax error,

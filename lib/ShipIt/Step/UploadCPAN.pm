@@ -18,6 +18,11 @@ sub run {
     die "No distfile was created!"             unless $distfile;
     die "distfile $distfile no longer exists!" unless -e $distfile;
 
+    if ($state->dry_run) {
+        warn "*** DRY RUN, not uploading to CPAN!\n";
+        return;
+    }
+
     return unless bool_prompt("Upload to CPAN?", "y");
     system($self->{exe}, $distfile) and die
         "Upload failed.\n";

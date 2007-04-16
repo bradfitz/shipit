@@ -21,7 +21,7 @@ sub new {
 
 =head1 NAME
 
-ShipIt::VC::SVN -- ShipIT's subversion support
+ShipIt::VC::SVN -- ShipIt's subversion support
 
 =head1 CONFIGURATION
 

@@ -3,8 +3,10 @@ use strict;
 use Carp qw(croak confess);
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var);
+our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var tempdir_obj);
 use Term::ReadLine ();
+use File::Temp ();
+use File::Path ();
 
 our $term = Term::ReadLine->new("prompt");
 
@@ -56,5 +58,27 @@ sub make_var {
     return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)/m;
     return $1;
 }
+
+# returns either $obj or ($obj->dir, $obj), when in list context.
+# when $obj goes out of scope, all temp directory contents are wiped.
+sub tempdir_obj {
+    my $dir = File::Temp::tempdir() or
+        die "Failed to create temp directory: $!\n";
+    my $obj = bless {
+        dir => $dir,
+    }, "ShipIt::Util::TempDir";
+    return wantarray ? ($dir, $obj) : $obj;
+}
+
+
+############################################################################
+
+package ShipIt::Util::TempDir;
+sub directory { $_[0]{dir} };
+sub DESTROY {
+    my $self = shift;
+    File::Path::rmtree($self->{dir}) if $self->{dir} && -d $self->{dir};
+}
+
 
 1;
