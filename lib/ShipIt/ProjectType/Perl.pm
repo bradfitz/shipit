@@ -41,7 +41,7 @@ sub current_version_from_makefilepl {
             $self->{ver_from} = $2;
             last;
         }
-        if (/VERSION.+([\'\"])(.+?)\1/) {
+        if (/\bVERSION\b.+([\'\"])(.+?)\1/) {
             return $2;
         }
     }
@@ -75,6 +75,8 @@ sub update_version {
     if (-e "Makefile.PL") {
         my $file = "Makefile.PL";
         my $contents = slurp($file);
+        $contents =~ s/(\bVERSION\b.+)([\'\"])(.+?)\2/$1$2$newver$2/
+            or die "Failed to replace VERSION in MakeFile.PL\n";
         write_file($file, $contents);
         return 1;
 

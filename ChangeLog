@@ -1,3 +1,7 @@
+0.45
+	* fix ChangeVersion (which was doing nothing) when VERSION (not
+	  VERSION_FROM) was in Makefile.PL
+	* make the anti-compulsive don't-run-me-code smarter
 0.44
 	* make UploadCPAN fail earlier if MakeDist wasn't done.
 	* make ProjectType::MakeMaker's disttest ignore the .shipit file,

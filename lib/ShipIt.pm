@@ -6,7 +6,7 @@ use ShipIt::State;
 use ShipIt::VC;
 use ShipIt::Util;
 
-$VERSION = '0.44';
+$VERSION = '0.45';
 
 =head1 NAME
 
