@@ -1,3 +1,5 @@
+0.46
+	* svk support from Tatsuhiko Miyagawa
 0.45
 	* fix ChangeVersion (which was doing nothing) when VERSION (not
 	  VERSION_FROM) was in Makefile.PL
