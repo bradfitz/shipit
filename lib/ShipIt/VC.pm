@@ -1,6 +1,7 @@
 package ShipIt::VC;
 use strict;
 use ShipIt::VC::SVN;
+use ShipIt::VC::SVK;
 
 =head1 NAME
 
@@ -35,7 +36,15 @@ memoized (er, singleton) instance of ShipIt::VC->new.
 sub new {
     my ($class, $conf) = @_;
     return ShipIt::VC::SVN->new($conf) if -e ".svn";
-    die "Unknown/undetected version control system.  Currently only svn is supported.";
+    return ShipIt::VC::SVK->new($conf) if $class->is_svk_co;
+    die "Unknown/undetected version control system.  Currently only svn/svk is supported.";
+}
+
+sub is_svk_co {
+    my $class = shift;
+
+    my $info = `svk info`;
+    return $info && $info =~ /Checkout Path/;
 }
 
 =head1 ABSTRACT METHODS

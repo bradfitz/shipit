@@ -3,20 +3,27 @@ use strict;
 use base 'ShipIt::VC';
 use File::Temp ();
 
+sub command { 'svn' }
+
 sub new {
     my ($class, $conf) = @_;
     my $self = bless {}, $class;
-    $self->{tagpattern} = $conf->value("svn.tagpattern");
+    $self->{tagpattern} = $conf->value( $self->command . ".tagpattern" );
 
-    my $info = `svn info`;
-    unless ($info =~ /^URL: (.+)/m) {
-        die "Failed to run svn, or this isn't an svn working copy";
-    }
-    $self->{url} = $1;
+    my $command = $self->command;
+    my $url = $self->find_url
+        or die "Failed to run $command, or this isn't an $command working copy";
+    $self->{url} = $url;
 
-    $self->{dir_exists} = {};  # url -> 1 (url exists, learned from svn ls)
-    $self->{dir_listed} => {}; # url -> 1 (have we do svn ls on url?)
+    $self->{dir_exists} = {}; # url -> 1 (url exists, learned from svn ls)
+    $self->{dir_listed} = {}; # url -> 1 (have we do svn ls on url?)
     return $self;
+}
+
+sub find_url {
+    my $self = shift;
+    my $info = `svn info`;
+    ($info =~ /^URL: (.+)/m)[0];
 }
 
 =head1 NAME
@@ -35,7 +42,7 @@ A pattern which ultimately expands into the absolute subversion URL for a tagged
 
 Example legit values:
 
-=list
+=over 8
 
 =item http://example.com/svn/tags/MyProject-%v
 
@@ -59,25 +66,17 @@ be bad, as the tagged directory has no project name in it.
 
 =cut
 
-
-
-sub commit {
-    die "ABSTRACT";
-}
-
-sub tag_version {
-    die "ABSTRACT";
-}
-
 sub exists_tagged_version {
     my ($self, $ver) = @_;
+
+    my $command = $self->command;
     my $url = $self->_tag_url_of_version($ver);
-    die "bogus chars in svn url" if $url =~ /[ \`\&\;]/;
+    die "bogus chars in $command url" if $url =~ /[ \`\&\;]/;
 
     my $tag_base = $url;
     $tag_base =~ s!/[^/]+$!! or die;
     unless ($self->{dir_listed}{$tag_base}++) {
-        foreach my $f (`svn ls $tag_base`) {
+        foreach my $f (`$command ls $tag_base`) {
             chomp $f;
             $self->{dir_exists}{"$tag_base/$f"} = 1;
         }
@@ -89,7 +88,7 @@ sub exists_tagged_version {
 # returns tag url of a given version, with no trailing slash
 sub _tag_url_of_version {
     my ($self, $ver) = @_;
-    my $url = $self->{tagpattern};
+    my $url = $self->{tagpattern} || '';
     unless ($url =~ m!^[\w\+]+://!) {
         $url = $self->_tag_base . $url;
     }
@@ -109,14 +108,16 @@ sub _tag_base {
 sub commit {
     my ($self, $msg) = @_;
 
+    my $command = $self->command;
+
     # any locally-added files not in svn?
     my $unk;
-    foreach (`svn st`) {
+    foreach (`$command st`) {
         next unless /^\?/;
         $unk .= $_;
     }
     if ($unk) {
-        die "Unknown local files:\n$unk\n\nUpdate svn:ignore with:\n\tsvn pe svn:ignore .\n";
+        die "Unknown local files:\n$unk\n\nUpdate $command:ignore with:\n\t$command pe svn:ignore .\n";
         exit(1);
     }
 
@@ -124,12 +125,14 @@ sub commit {
     my $tmp_fh = File::Temp->new(UNLINK => 1, SUFFIX => '.msg');
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";
-    system("svn", "ci", "--file", $tmp_fn) and die "Commit failed.\n";
+    # TODO fails if these changes are already commited by hand
+    system($command, "ci", "--file", $tmp_fn) and die "Commit failed.\n";
 }
 
 sub local_diff {
     my ($self, $file) = @_;
-    return `svn diff $file`;
+    my $command = $self->command;
+    return `$command diff $file`;
 }
 
 sub tag_version {
@@ -139,13 +142,14 @@ sub tag_version {
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";
     my $tag_url = $self->_tag_url_of_version($ver);
-    system("svn", "copy", "--file", $tmp_fn, $self->{url}, $tag_url)
+    system($self->command, "copy", "--file", $tmp_fn, $self->{url}, $tag_url)
         and die "Tagging of version '$ver' failed.\n";
 }
 
 sub are_local_diffs {
     my ($self) = @_;
-    my $diff = `svn diff`;
+    my $command = $self->command;
+    my $diff = `$command diff`;
     return $diff =~ /\S/ ? 1 : 0;
 }
 
