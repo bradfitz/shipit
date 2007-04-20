@@ -32,28 +32,51 @@ B<shipit> automates all the hell.  It makes life beautiful.
 
 =head1 HOW TO USE
 
-Two steps:  make a config file (which may be empty), and then type "shipit".
+Three steps:  run "shipit --write-config" to make a dummy/template config, edit config file, then run "shipit" again
 
-=head2 Step 1/2: Make a config file
+=head2 Step 1/3: Write out template config file
 
-In the root directory of your project, make a file named B<.shipit>.  The structure of the file is:
+In the root directory of your project, run:
 
-   # a comment
-   key = value
-   key2 = value2
+  $ shipit --write-config
 
-   # blank lines don't matter
+And it'll bring up your $EDITOR, so you can do step 2...
 
-All values have sensible defaults, and any missing/extra keys generate errors.  For more information on things you
-can configure, see L<ShipIt::Conf>.
+=head2 Step 2/3: Tweak your config file
 
-=head2 Step 2/2: Run 'shipit'
+The default config file is something like:
 
-From the root directory of your project, where the shipit config file is, type B<shipit>:
+  # auto-generated shipit config file.
+  steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist
+
+  # svn.tagpattern = MyProj-%v
+  # svn.tagpattern = http://code.example.com/svn/tags/MyProj-%v
+
+  # CheckChangeLog.files = ChangeLog, MyProj.CHANGES
+
+Tweak away.  You may want to add the "UploadCPAN" step at the end of
+steps, as it isn't included by default.  It requires L<cpan-upload> or
+L<cpan-upload-http> installed.
+
+The comma-separate steps are L<ShipIt::Step> subclasses.  Each one may
+or may accept additional config, as you can see the CheckChangeLog
+step does.  (although CheckChangeLog by default figures it out, how
+your changelog files are named)
+
+All values have sensible defaults, and any missing/extra keys generate
+errors.
+
+For more info on svn.tagpattern, see L<ShipIt::VC::SVN>.
+
+=head2 Step 3/3: Run 'shipit' again
+
+From the root directory of your project, where your new .shipit config file is, type B<shipit>:
 
    you@host:~/proj$ shipit
 
 And then it does the rest, after verifying with you the version number you want to release.
+
+If you're really cautious, run with "shipit --dry-run" instead.
 
 =cut
 
