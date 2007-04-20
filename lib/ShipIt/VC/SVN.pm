@@ -112,7 +112,9 @@ sub commit {
 
     # any locally-added files not in svn?
     my $unk;
+    my $changed = 0;
     foreach (`$command st`) {
+        $changed++;
         next unless /^\?/;
         $unk .= $_;
     }
@@ -121,11 +123,15 @@ sub commit {
         exit(1);
     }
 
+    unless ($changed) {
+        warn "No locally changed files, skipping commit\n";
+        return;
+    }
+
     # commit
     my $tmp_fh = File::Temp->new(UNLINK => 1, SUFFIX => '.msg');
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";
-    # TODO fails if these changes are already commited by hand
     system($command, "ci", "--file", $tmp_fn) and die "Commit failed.\n";
 }
 
