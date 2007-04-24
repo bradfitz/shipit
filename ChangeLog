@@ -1,3 +1,5 @@
+0.48
+	* new step: AddToSVNDir
         * skip commit step if there is nothing to commit
 0.47
 	* lot more/updated docs

@@ -17,6 +17,7 @@ lib/ShipIt/Step/FindVersion.pm
 lib/ShipIt/Step/MakeDist.pm
 lib/ShipIt/Step/Tag.pm
 lib/ShipIt/Step/UploadCPAN.pm
+lib/ShipIt/Step/AddToSVNDir.pm
 lib/ShipIt/Util.pm
 lib/ShipIt/VC.pm
 lib/ShipIt/VC/SVK.pm

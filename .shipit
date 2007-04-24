@@ -1,4 +1,6 @@
-steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN
+#steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN
+steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, AddToSVNDir
+
 
 # if directory, where the normal "make dist" puts its file.
 #MakeDist.destination = ~/shipit-dist
@@ -6,3 +8,5 @@ steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeD
 svn.tagpattern = ShipIt-%v
 
 CheckChangeLog.files = ChangeLog
+
+AddToSVNDir.dir = /home/lj/cvs/web-danga/dist/ShipIt

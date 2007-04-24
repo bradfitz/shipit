@@ -3,10 +3,12 @@ use strict;
 use Carp qw(croak confess);
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var tempdir_obj);
+our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var tempdir_obj
+                    in_dir);
 use Term::ReadLine ();
 use File::Temp ();
 use File::Path ();
+use Cwd;
 
 our $term = Term::ReadLine->new("prompt");
 
@@ -68,6 +70,19 @@ sub tempdir_obj {
         dir => $dir,
     }, "ShipIt::Util::TempDir";
     return wantarray ? ($dir, $obj) : $obj;
+}
+
+# run a coderef in another directory, then return to old directory,
+# even if $code dies.
+sub in_dir {
+    my ($dir, $code) = @_;
+    my $old_cwd = getcwd;
+    chdir($dir) or die "chdir to dir $dir failed: $!\n";
+    my $rv = eval { $code->(); };
+    my $err = $@;
+    chdir($old_cwd) or die "chdir back to $old_cwd failed: $!\n";
+    die $err if $err;
+    return $rv;
 }
 
 
