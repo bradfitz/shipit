@@ -1,3 +1,6 @@
+0.49
+	* ProjectType::Perl now works with Makefile.PL that uses Module::Install
+
 0.48
 	* new step: AddToSVNDir
         * skip commit step if there is nothing to commit
