@@ -37,7 +37,13 @@ sub current_version_from_makefilepl {
     my $self = shift;
     open (my $fh, "Makefile.PL") or die "Can't open Makefile.PL: $!\n";
     while (<$fh>) {
+        # MakeMaker
         if (/VERSION_FROM.+([\'\"])(.+?)\1/) {
+            $self->{ver_from} = $2;
+            last;
+        }
+        # Module::Install
+        if (/(?:all|version)_from(?:\s*\(|\s+)([\'\"])(.+?)\1/) {
             $self->{ver_from} = $2;
             last;
         }
