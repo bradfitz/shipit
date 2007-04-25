@@ -20,6 +20,10 @@ sub disttest {
     my @missing    = manicheck;
     my @extra      = filecheck;
 
+    # Module::Install creates inc/ in perl Makefile.PL and META.yml in make
+    my $missing_ignore = join "|", qw( ^META\.yml$ ^inc/ );
+    @missing = grep { $_ !~ $missing_ignore } @missing;
+
     # I'm getting sick of making MANIFEST.SKIP files just for the
     # .shipit conf file and dh-make-perl stuff, so let's ignore those
     my %ignore = map { $_ => 1 } qw(
