@@ -10,12 +10,25 @@ sub new {
     return $self;
 }
 
+sub prepare_build {
+    my $self  = shift;
+    system("perl", "Makefile.PL") and die "Makefile.PL failed";
+}
+
+sub run_build {
+    my $self = shift;
+    my($cmd) = @_;
+
+    !system("make", $cmd);
+}
+
 # returns 1 if a make disttest succeeds.
 sub disttest {
     my $self = shift;
-    system("perl", "Makefile.PL") and die "Makefile.PL failed";
-    system("make", "disttest")    and die "Disttest failed";
-    system("make", "distclean")   and die "Distclean failed";
+
+    $self->prepare_build;
+    $self->run_build('disttest')  or die "Disttest failed";
+    $self->run_build('distclean') or die "Distclean failed";
 
     my @missing    = manicheck;
     my @extra      = filecheck;
@@ -45,13 +58,13 @@ sub disttest {
 
 sub makedist {
     my $self = shift;
-    system("perl", "Makefile.PL") and die "Makefile.PL failed";
+    $self->prepare_build;
 
     my $file = make_var("DISTVNAME") or die "No DISTVNAME in Makefile";
     $file .= ".tar.gz";
     die "Distfile $file already exists.\n" if -e $file;
 
-    system("make", "dist")        and die "make dist failed";
+    $self->run_build("dist") or die "make dist failed";
     die "Distfile $file doesn't exists, but should.\n" unless -e $file;
     return $file;
 }

@@ -1,5 +1,7 @@
 
 	* fix MakeMaker manicheck to ignore META.yml and inc/ directory for Module::Install
+	* Make Perl::ModuleBuild actually work. You need to add .shipit to MANIFEST.SKIP
+	  to prevent disttest from failing (miyagawa)
 
 0.49
 	* ProjectType::Perl now works with Makefile.PL that uses Module::Install
