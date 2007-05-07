@@ -121,6 +121,20 @@ commit/tag/upload stuff... just test if everything would've succeeded.
 sub set_dry_run { $_[0]{dryrun} = $_[1] }
 sub dry_run     { $_[0]{dryrun}         }
 
+=head2 skip_tests
+
+   $dry = $state->skip_tests;
+
+Accessor for "skip tests" flag.  If set, you should skip
+tests.  Presumably user already ran shipit, tests passed,
+and then some later step failed, and they want to ship
+quickly, without running entire test suite again.
+
+=cut
+
+sub set_skip_tests { $_[0]{skiptests} = $_[1] }
+sub skip_tests     { $_[0]{skiptests}         }
+
 =head2 set_distfile
 
 =head2 distfile

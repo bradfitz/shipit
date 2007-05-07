@@ -10,9 +10,11 @@ use constant CONFFILE => ".shipit";
 
 my $opt_dry;
 my $opt_wc;
+my $opt_skiptests;
 exit(1) unless
     GetOptions("dry-run|n"    => \$opt_dry,
                "write-config" => \$opt_wc,
+               "skip-test"    => \$opt_skiptests,
                );
 
 my $dir = shift || getcwd;
@@ -36,6 +38,7 @@ unless (-e CONFFILE) {
 my $conf  = ShipIt::Conf->parse(CONFFILE);
 my $state = ShipIt::State->new($conf);
 $state->set_dry_run($opt_dry);
+$state->set_skip_tests($opt_skiptests);
 
 foreach my $step ($conf->steps) {
     warn "Running step $step\n";
@@ -51,6 +54,7 @@ shipit - Executable for ShipIt
  $ shipit
  $ shipit --dry-run       # or -n
  $ shipit --write-config
+ $ shipit --skip-tests    # but please don't.
 
 =head1 SEE ALSO
 
