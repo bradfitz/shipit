@@ -11,6 +11,18 @@ sub find_url {
     ($info =~ /^Depot Path: (.+)/m)[0];
 }
 
+sub _tag_url_of_version {
+    my ($self, $ver) = @_;
+    my $url = $self->{tagpattern} || '';
+    unless ($url =~ m!^/!) {
+        $url = $self->_tag_base . $url;
+    }
+    $url .= "%v" unless $url =~ /\%v/i;
+    $url =~ s/\%v/$ver/ig;
+    $url =~ s!/+$!!;
+    return $url;
+}
+
 =head1 NAME
 
 ShipIt::VC::SVK -- ShipIt's SVK support

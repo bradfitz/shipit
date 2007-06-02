@@ -9,6 +9,7 @@ lib/ShipIt/ProjectType/Perl/MakeMaker.pm
 lib/ShipIt/ProjectType/Perl/ModuleBuild.pm
 lib/ShipIt/State.pm
 lib/ShipIt/Step.pm
+lib/ShipIt/Step/AddToSVNDir.pm
 lib/ShipIt/Step/ChangeRPMVersion.pm
 lib/ShipIt/Step/ChangeVersion.pm
 lib/ShipIt/Step/CheckChangeLog.pm
@@ -18,7 +19,6 @@ lib/ShipIt/Step/FindVersion.pm
 lib/ShipIt/Step/MakeDist.pm
 lib/ShipIt/Step/Tag.pm
 lib/ShipIt/Step/UploadCPAN.pm
-lib/ShipIt/Step/AddToSVNDir.pm
 lib/ShipIt/Util.pm
 lib/ShipIt/VC.pm
 lib/ShipIt/VC/SVK.pm
@@ -28,4 +28,5 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
 shipit
+t/svk-tagpattern.t
 t/svn-tagpattern.t

@@ -1,3 +1,6 @@
+
+	* Fixed VC::SVK to work with absolute path in tagpattern (Kang-Min Liu)
+
 0.50
         * --skip-tests option, for when tests are long and a step after DistTest fails,
 	  so next time around you can run shipit faster.  use is discouraged.
