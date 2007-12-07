@@ -63,7 +63,7 @@ sub version_from_file {
     while (<$fh>) {
         return $2 if /\$VERSION\s*=\s*([\'\"])(.+?)\1/;
     }
-    die "No \$VERSION found in file $file\n";
+    die "No \$VERSION found in file $file\nMaybe, you forgot to quote \$VERSION?";
 }
 
 sub update_version {
