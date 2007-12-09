@@ -36,7 +36,7 @@ In your .shipit configuration file, the following options are recognized:
 
 =over
 
-=item B<svn.tagformat>
+=item B<svn.tagpattern>
 
 A pattern which ultimately expands into the absolute subversion URL for a tagged version.  If the pattern isn't already absolute, the conventional "tags" directory is used as a base.  The pattern has one magic variable, %v, which expands to the version number being tagged.  If no %v is found, it's placed at the end.
 

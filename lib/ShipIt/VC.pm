@@ -2,6 +2,7 @@ package ShipIt::VC;
 use strict;
 use ShipIt::VC::SVN;
 use ShipIt::VC::SVK;
+use ShipIt::VC::Git;
 
 =head1 NAME
 
@@ -36,6 +37,7 @@ memoized (er, singleton) instance of ShipIt::VC->new.
 sub new {
     my ($class, $conf) = @_;
     return ShipIt::VC::SVN->new($conf) if -e ".svn";
+    return ShipIt::VC::Git->new($conf) if -e ".git";
     return ShipIt::VC::SVK->new($conf) if $class->is_svk_co;
     die "Unknown/undetected version control system.  Currently only svn/svk is supported.";
 }

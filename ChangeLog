@@ -1,3 +1,6 @@
+0.52 () XXX
+	* Added VC::Git (Yann)
+
 0.51 (2006-06-18)
 
 	* Fixed VC::SVK to work with absolute path in tagpattern (Kang-Min Liu)

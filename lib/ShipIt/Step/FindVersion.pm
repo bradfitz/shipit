@@ -23,7 +23,7 @@ sub run {
 
     # are they just compulsively running shipit?  i.e., they just asked for same
     # version as something tagged & no local diffs....
-    if ($is_tagged && $newver eq $ver && ! $state->vc->are_local_diffs) {
+    if ($is_tagged && $newver eq $ver && ! $state->vc->are_local_diffs($ver)) {
         die "No local changes, and version on disk is already tagged.  Nothing to do.\n";
     }
 
