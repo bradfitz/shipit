@@ -1,5 +1,7 @@
 0.52 () XXX
 	* Added VC::Git (Yann)
+	* Hacked around an issue where svk blocks on STDIN if you don't have a
+	  depot map initialized (Yann)
 
 0.51 (2006-06-18)
 

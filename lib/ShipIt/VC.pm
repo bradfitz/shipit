@@ -45,7 +45,7 @@ sub new {
 sub is_svk_co {
     my $class = shift;
 
-    my $info = `svk info`;
+    my $info = `yes | sed 's/y/n/' | svk info 2>&1`;
     return $info && $info =~ /Checkout Path/;
 }
 
