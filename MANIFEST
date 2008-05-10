@@ -21,6 +21,7 @@ lib/ShipIt/Step/Tag.pm
 lib/ShipIt/Step/UploadCPAN.pm
 lib/ShipIt/Util.pm
 lib/ShipIt/VC.pm
+lib/ShipIt/VC/Git.pm
 lib/ShipIt/VC/SVK.pm
 lib/ShipIt/VC/SVN.pm
 Makefile.PL

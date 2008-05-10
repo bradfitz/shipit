@@ -1,9 +1,10 @@
-0.52 () XXX
+0.52 (2008-05-10)
+
 	* Added VC::Git (Yann)
 	* Hacked around an issue where svk blocks on STDIN if you don't have a
 	  depot map initialized (Yann)
 
-0.51 (2006-06-18)
+0.51 (2007-06-18)
 
 	* Fixed VC::SVK to work with absolute path in tagpattern (Kang-Min Liu)
 
