@@ -20,5 +20,21 @@ sub run_build {
     !system("perl", "Build", $cmd);
 }
 
+sub makedist {
+    my $self = shift;
+    $self->prepare_build;
+
+    require Module::Build;
+    my $build = Module::Build->current;
+
+    my $file = $build->dist_dir;
+    $file .= ".tar.gz";
+    die "Distfile $file already exists.\n" if -e $file;
+
+    $self->run_build("dist") or die "make dist failed";
+    die "Distfile $file doesn't exists, but should.\n" unless -e $file;
+    return $file;
+}
+
 1;
 

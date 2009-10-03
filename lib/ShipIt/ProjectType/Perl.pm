@@ -1,6 +1,7 @@
 package ShipIt::ProjectType::Perl;
 use strict;
 use base 'ShipIt::ProjectType';
+use File::Spec;
 use ShipIt::Util qw(slurp write_file);
 use ShipIt::ProjectType::Perl::MakeMaker;
 use ShipIt::ProjectType::Perl::ModuleBuild;
@@ -26,10 +27,10 @@ sub current_version {
     my $self = shift;
     return $self->{version} if defined $self->{version};
 
-    if (-e "Makefile.PL") {
-        return $self->{version} = $self->current_version_from_makefilepl;
+    if (-e "Build.PL") {
+        return $self->{version} = $self->current_version_from_buildpl;
     } else {
-        die "TODO: don't yet support Module::Build, etc...\n";
+        return $self->{version} = $self->current_version_from_makefilepl;
     }
 }
 
@@ -53,6 +54,37 @@ sub current_version_from_makefilepl {
     }
     close($fh);
     return $self->version_from_file;
+}
+
+sub current_version_from_buildpl {
+    my $self = shift;
+    open (my $fh, "Build.PL") or die "Can't open Build.PL: $!\n";
+    while (<$fh>) {
+        if (/\bdist_version_from\b.+([\'\"])(.+?)\1/) {
+            $self->{ver_from} = $2;
+            last;
+        }
+        if (/\bmodule_name\b.+([\'\"])(.+?)\1/) {
+            $self->{ver_from} = $self->_module_to_file($2);
+            # no last since we prefer dist_version_from
+        }
+        if (/\bdist_version\b.+([\'\"])(.+?)\1/) {
+            return $2;
+        }
+    }
+    close($fh);
+    return $self->version_from_file;
+}
+
+sub _module_to_file {
+    my ($self, $mod) = @_;
+
+    my @parts = split /::/, $mod;
+    $parts[-1] .= q{.pm};
+
+    unshift @parts, 'lib' if -d 'lib';
+
+    return File::Spec->catfile(@parts);
 }
 
 # returns $VERSION from a file, assuming $self->{ver_from} is already set

@@ -18,6 +18,7 @@ WriteMakefile(
               AUTHOR         => 'Brad Fitzpatrick <brad@danga.com>',
               ABSTRACT_FROM  => 'lib/ShipIt.pm',
               PREREQ_PM      => {
+                  'File::Spec'     => 0,
                   'Term::ReadLine' => 0,
               },
               );
