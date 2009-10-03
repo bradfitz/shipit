@@ -1,3 +1,7 @@
+	* Mercurial support
+
+	* Module::Build support
+	
 0.52 (2008-05-10)
 
 	* Added VC::Git (Yann)
