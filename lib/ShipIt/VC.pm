@@ -3,6 +3,7 @@ use strict;
 use ShipIt::VC::SVN;
 use ShipIt::VC::SVK;
 use ShipIt::VC::Git;
+use ShipIt::VC::Mercurial;
 
 =head1 NAME
 
@@ -38,8 +39,9 @@ sub new {
     my ($class, $conf) = @_;
     return ShipIt::VC::SVN->new($conf) if -e ".svn";
     return ShipIt::VC::Git->new($conf) if -e ".git";
+    return ShipIt::VC::Mercurial->new($conf) if -e ".hg";
     return ShipIt::VC::SVK->new($conf) if $class->is_svk_co;
-    die "Unknown/undetected version control system.  Currently only svn/svk is supported.";
+    die "Unknown/undetected version control system.  Currently only svn/svk/git/hg are supported.";
 }
 
 sub is_svk_co {
