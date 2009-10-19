@@ -1,6 +1,8 @@
 	* Mercurial support
 
 	* Module::Build support
+    * current_version_from_makefilepl() now also recognizes 'reference_module' 
+      from Module::Install::ReadmeMarkdownFromPod
 	
 0.52 (2008-05-10)
 
