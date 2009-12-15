@@ -44,7 +44,7 @@ sub disttest {
                                     install-stamp
                                     build-stamp
                                     );
-    @extra = grep { ! $ignore{$_} } @extra;
+    @extra = grep { ! ($ignore{$_} || /^\.git/) } @extra;
 
     my $list = sub {
         join('', map { "$_\n" } @_);
