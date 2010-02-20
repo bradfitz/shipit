@@ -58,7 +58,7 @@ sub edit_file {
 sub make_var {
     my $var = shift;
     my $file = slurp("Makefile");
-    return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)/m;
+    return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)\s*/m;
     return $1;
 }
 
