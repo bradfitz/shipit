@@ -3,10 +3,15 @@ use strict;
 use base 'ShipIt::ProjectType::Perl';
 use ExtUtils::Manifest qw(manicheck skipcheck filecheck);
 use ShipIt::Util qw(make_var);
+use Config;
 
 sub new {
     my ($class) = @_;
     my $self = $class->SUPER::new;
+    my $make = $Config{make} or die "You don't have make";
+    my $quot = $^O eq 'MSWin32' ? q/"/ : q/'/;
+    $make = "$quot$make$quot" if $make =~ /\s/ && $make !~ /^$quot/;
+    $self->{make} = $make;
     return $self;
 }
 
@@ -19,7 +24,7 @@ sub run_build {
     my $self = shift;
     my($cmd) = @_;
 
-    !system("make", $cmd);
+    !system($self->{make}, $cmd);
 }
 
 # returns 1 if a make disttest succeeds.
