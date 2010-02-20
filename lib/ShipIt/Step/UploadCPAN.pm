@@ -2,12 +2,17 @@ package ShipIt::Step::UploadCPAN;
 use strict;
 use base 'ShipIt::Step';
 use ShipIt::Util qw(bool_prompt);
+use File::Spec;
 
 sub init {
     my ($self, $conf) = @_;
-    my $exe;
-    $exe = `which cpan-upload-http` || `which cpan-upload`;
-    chomp $exe;
+    my $exe = '';
+    foreach my $dir (File::Spec->path) {
+        $exe = 'cpan-upload-http';
+        last if -x File::Spec->catfile($dir, $exe);
+        $exe = 'cpan-upload';
+        last if -x File::Spec->catfile($dir, $exe);
+    }
     die "cpan-upload-http not found\n" unless $exe;
     $self->{exe} = $exe;
 }
