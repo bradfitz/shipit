@@ -15,7 +15,7 @@ our $term = Term::ReadLine->new("prompt");
 sub slurp {
     my ($file) = @_;
     open (my $fh, $file) or confess "Failed to open $file: $!\n";
-    return do { local $/; <$fh>; }
+    return do { local $/; binmode $fh; <$fh>; }
 }
 
 sub write_file {
