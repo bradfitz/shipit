@@ -21,6 +21,7 @@ sub slurp {
 sub write_file {
     my ($file, $contents) = @_;
     open (my $fh, ">", $file) or confess "Failed to open $file for write: $!\n";
+    binmode $fh;
     print $fh $contents;
     close($fh) or confess "Close failed";
     die "assert" unless -s $file == length($contents);
