@@ -2,6 +2,7 @@ package ShipIt::ProjectType;
 use strict;
 use ShipIt::ProjectType::Perl;
 use ShipIt::ProjectType::AutoConf;
+use ShipIt::Util qw(find_subclasses);
 
 =head1 NAME
 
@@ -36,6 +37,12 @@ sub new {
 
         $pt = ShipIt::ProjectType::AutoConf->new;
         return $pt if $pt;
+
+        for my $class (grep {!/::(Perl|AutoConf)$/} find_subclasses($class)) {
+            eval "CORE::require $class";
+            $pt = $class->new;
+            return $pt if $pt;
+        }
 
         die "Unknown project type.  Can't find Makefile.PL, Build.PL, configure.ac, etc..";
     }

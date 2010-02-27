@@ -41,6 +41,14 @@ sub new {
     return ShipIt::VC::Git->new($conf) if -e ".git";
     return ShipIt::VC::Mercurial->new($conf) if -e ".hg";
     return ShipIt::VC::SVK->new($conf) if $class->is_svk_co;
+    
+    # look for any custom modules with an expensive search after exhausting the known ones
+    for my $class (grep {!/::(SVN|Git|Mercurial|SVK)$/} find_subclasses($class)) {
+        eval "CORE::require $class";
+        my $vc = $class->new($conf);
+        return $vc if $vc;
+    }
+
     die "Unknown/undetected version control system.  Currently only svn/svk/git/hg are supported.";
 }
 

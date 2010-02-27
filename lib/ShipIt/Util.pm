@@ -4,7 +4,7 @@ use Carp qw(croak confess);
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(slurp write_file bool_prompt edit_file $term make_var tempdir_obj
-                    in_dir);
+                    find_subclasses in_dir);
 use Term::ReadLine ();
 use File::Temp ();
 use File::Path ();
@@ -60,6 +60,20 @@ sub make_var {
     my $file = slurp("Makefile");
     return undef unless $file =~ /^\Q$var\E\s*=\s*(.+)\s*/m;
     return $1;
+}
+
+sub find_subclasses {
+    # search for any other custom project type modules
+    my $class = shift;
+    my @classes = ();  
+    for my $dir (@INC) {
+        for my $file (glob("$dir/" . join("/", split(/::/, $class)) . "/*.pm")) {
+            if($file =~ /\/(\w+)\.pm/) {
+                push(@classes, "$class" . "::" . "$1");
+            }
+        }
+    }
+    return @classes;
 }
 
 # returns either $obj or ($obj->dir, $obj), when in list context.
