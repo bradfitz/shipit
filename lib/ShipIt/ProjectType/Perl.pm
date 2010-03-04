@@ -44,7 +44,7 @@ sub current_version_from_makefilepl {
             last;
         }
         # Module::Install
-        if (/(?:all|version)_from(?:\s*\(|\s+)([\'\"])(.+?)\1/) {
+        if (/(?:(?:all|version)_from|reference_module)(?:\s*\(|\s+)([\'\"])(.+?)\1/) {
             $self->{ver_from} = $2;
             last;
         }
