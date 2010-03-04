@@ -9,6 +9,7 @@ sub new {
     my ($class, $conf) = @_;
     my $self = bless {}, $class;
     $self->{tagpattern} = $conf->value( $self->command . ".tagpattern" );
+    $self->{sign_tag} = $conf->value( $self->command . ".sign_tag" );
     $self->{push_to} = $conf->value( $self->command . ".push_to" );
     return $self;
 }
@@ -26,6 +27,11 @@ In your .shipit configuration file, the following options are recognized:
 =item B<git.tagpattern>
 
 Defines how the tag are defined in your git repo.
+
+=item B<git.sign_tag>
+
+This should be set to a truthy value, if you wish the tags to be GPG signed.
+(C<git tag -s ...>)
 
 =item B<git.push_to>
 
@@ -103,8 +109,7 @@ sub tag_version {
     print $tmp_fh $msg;
     my $tmp_fn = "$tmp_fh";
     my $tag = $self->_tag_of_version($ver); 
-    ## not GPG signed
-    system($self->command, "tag", "-a", "-F", $tmp_fn, $tag)
+    system($self->command, "tag", "-a", ($self->{sign_tag} ? "-s" : ()), "-F", $tmp_fn, $tag)
         and die "Tagging of version '$ver' failed.\n";
 
     if (my $where = $self->{push_to}) {
@@ -121,5 +126,3 @@ sub are_local_diffs {
 }
 
 1;
-
-
