@@ -7,7 +7,7 @@ sub run {
     my $vc  = $state->vc;
     my $ver = $state->version;
 
-    my $msg = "Checking in changes prior to tagging of version $ver.  Changelog diff is:\n\n";
+    my $msg = "Checking in changes prior to tagging of version $ver.\n\nChangelog diff is:\n\n";
 
     foreach my $f ($state->changelog_files) {
         $msg .= $vc->local_diff($f);
