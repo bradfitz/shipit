@@ -15,6 +15,7 @@ sub init {
     }
     die "cpan-upload-http not found\n" unless $exe;
     $self->{exe} = $exe;
+    $self->{user} = $conf->value("UploadCPAN.user");
 }
 
 sub run {
@@ -29,7 +30,11 @@ sub run {
     }
 
     return unless bool_prompt("Upload to CPAN?", "y");
-    system($self->{exe}, $distfile) and die
+
+    my @options;
+    push @options, "-u", $self->{user}, "-p", "" # reset password in case you have ~/.pause
+        if $self->{user};
+    system($self->{exe}, @options, $distfile) and die
         "Upload failed.\n";
 }
 
