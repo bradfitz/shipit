@@ -78,6 +78,12 @@ And then it does the rest, after verifying with you the version number you want 
 
 If you're really cautious, run with "shipit --dry-run" instead.
 
+=head1 CONTRIBUTING
+
+If you'd like to contribute to ShipIt (with either a bug report or patch), see:
+
+L<http://contributing.appspot.com/shipit>
+
 =cut
 
 1;

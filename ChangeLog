@@ -1,10 +1,20 @@
+0.54 (2010-03-27)
+
+	* Added a bunch of links to http://contributing.appspot.com/shipit
+
+	* Bunch of patches from the community all over the place... See
+	  version control history, linked off the Contributing URL above.
+	  (we should phase out this changelog, or make it just be the git
+	   log....)
+
 0.53 (2009-12-15)
 
 	* Mercurial support
 
 	* Module::Build support
-    * current_version_from_makefilepl() now also recognizes 'reference_module' 
-      from Module::Install::ReadmeMarkdownFromPod
+
+	* current_version_from_makefilepl() now also recognizes 'reference_module'
+          from Module::Install::ReadmeMarkdownFromPod
 	
 0.52 (2008-05-10)
 
