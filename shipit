@@ -64,7 +64,13 @@ L<ShipIt::Conf>
 
 =head1 AUTHOR
 
-Brad Fitzpatrick - brad@danga.com
+Brad Fitzpatrick, et al.  (see AUTHORS file)
+
+=head1 CONTRIBUTING
+
+If you'd like to contribute to ShipIt (with either a bug report or patch), see:
+
+L<http://contributing.appspot.com/shipit>
 
 =head1 COPYRIGHT, LICENSE, and WARRANTY
 
