@@ -56,7 +56,7 @@ sub commit {
 
     my $command = $self->command;
 
-    if ( my $unk = `git ls-files -z --others --exclude-per-directory=.gitignore --exclude-from=.git/info/exclude` ) {
+    if ( my $unk = `git ls-files -z --others --exclude-standard` ) {
         $unk =~ s/\0/\n/g;
         die "Unknown local files:\n$unk\n\nUpdate .gitignore, or $command add them";
         exit(1);
