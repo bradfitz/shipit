@@ -87,13 +87,42 @@ sub _module_to_file {
     return File::Spec->catfile(@parts);
 }
 
+sub _versioncode_from_string {
+    my ($self, $string) = @_;
+
+    if ($string =~ /
+                    (
+                        ( use \s* version \s* ; \s* )?
+                        (our)? \s* \$VERSION \s* = \s* 
+                        (
+                                           ['"] [\d\.\_]+ ['"]
+                            |      q{1,2}\( \s* [\d\.\_]+ \s* \)
+                            |                   [\d\.\_]+
+                            |  qv\( \s* ['"] v? [\d\.\_]+ ['"] \s* \)
+                        )
+                    )
+                /xms) {
+        return $1;
+    }
+
+    return 0;
+}
+
 # returns $VERSION from a file, assuming $self->{ver_from} is already set
 sub version_from_file {
     my $self = shift;
     my $file = $self->{ver_from} or die "no ver_from set";
     open (my $fh, $file) or die "Failed to open $file: $!\n";
-    while (<$fh>) {
-        return $2 if /\$VERSION\s*=\s*([\'\"])(.+?)\1/;
+    while (my $line = <$fh>) {
+        if (my $versionpart = $self->_versioncode_from_string($line)) {
+            eval {
+                package __ShipIt_Temp_Package;
+                use vars qw($VERSION);
+                eval $versionpart;
+            };
+            next if $@;
+            return $__ShipIt_Temp_Package::VERSION;
+        }
     }
     die "No \$VERSION found in file $file\nMaybe, you forgot to quote \$VERSION?";
 }
@@ -103,10 +132,17 @@ sub update_version {
 
     if (my $file = $self->{ver_from}) {
         my $contents = slurp($file);
-        $contents =~ s/(\$VERSION\s*=\s*([\'\"]))(.+?)\2/$1$newver$2/
-            or die "Failed to replace version.  Where is \$VERSION line?\n";
 
+        my $versionpart = $self->_versioncode_from_string($contents);
+        my $newversionpart = $versionpart;
+        my $version_withoutv = $self->{version};
+        $version_withoutv =~ s/^v//;
+        $newversionpart =~ s/ v? $version_withoutv /$newver/xms;
+
+        my ($x, $y) = (quotemeta($versionpart), $newversionpart);
+        $contents =~ s/$x/$y/;
         write_file($file, $contents);
+
         return 1;
     }
 
