@@ -1,3 +1,5 @@
+    * Add support for not running under a terminal.
+
 0.55 (2010-03-27)
 
 	* Added a bunch of links to http://contributing.appspot.com/shipit
