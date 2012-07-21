@@ -10,10 +10,7 @@ use File::Temp ();
 use File::Path ();
 use Cwd;
 
-our $term;
-
-# We may not get a terminal if we're running under an automatic build tool.
-eval {
+our $term = eval {
     Term::ReadLine->new("prompt");
 };
 
