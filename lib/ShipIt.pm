@@ -1,12 +1,11 @@
 package ShipIt;
 use strict;
-use vars qw($VERSION);
 use ShipIt::Conf;
 use ShipIt::State;
 use ShipIt::VC;
 use ShipIt::Util;
 
-$VERSION = '0.56';
+our $VERSION = '0.56';
 
 =head1 NAME
 
