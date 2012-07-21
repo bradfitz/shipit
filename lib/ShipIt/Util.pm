@@ -10,7 +10,12 @@ use File::Temp ();
 use File::Path ();
 use Cwd;
 
-our $term = Term::ReadLine->new("prompt");
+our $term;
+
+# We may not get a terminal if we're running under an automatic build tool.
+eval {
+    Term::ReadLine->new("prompt");
+};
 
 sub slurp {
     my ($file) = @_;
@@ -32,6 +37,7 @@ sub bool_prompt {
     my ($q, $def) = @_;
     $def = uc($def || "");
     die "bogus default" unless $def =~ /^[YN]?$/;
+    return $def if !$term;
     my $opts = " [y/n]";
     $opts = " [Y/n]" if $def eq "Y";
     $opts = " [y/N]" if $def eq "N";

@@ -30,6 +30,7 @@ In .shipit config:
 sub init {
     my ($self, $conf) = @_;
     $self->{dir} = $conf->value("AddToSVNDir.dir");
+    $self->{dir} =~ s/^~/$ENV{HOME}/;
     die "AddToSVNDir.dir not defined in config."     unless $self->{dir};
     die "AddToSVNDir.dir's value isn't a directory." unless -d $self->{dir};
     die "AddToSVNDir.dir's value isn't an svn directory." unless -d "$self->{dir}/.svn";

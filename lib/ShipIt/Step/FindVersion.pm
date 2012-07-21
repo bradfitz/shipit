@@ -18,7 +18,7 @@ sub run {
     # make dist or a test failed or something, so they're re-running it...)
     $def = "[$ver] " unless $is_tagged;
 
-    my $newver = $term->readline("Next/release version? $def");
+    my $newver = $term ? $term->readline("Next/release version? $def") : undef;
     $newver ||= $ver;
 
     # are they just compulsively running shipit?  i.e., they just asked for same
