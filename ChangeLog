@@ -1,4 +1,10 @@
-    * Add support for not running under a terminal.
+0.56 (2012-07-21)
+	* Supports and writes different style of perl version declarations (Brad Willis)
+	* Changed the display of git unknown files to be prettier (Daniel LeWarne)
+	* Include global git exclusion files (Daniel LeWarne)
+	* Add support for not running under a terminal (Dave Lambley)
+	* Make tilde (~) to point user's home directory (Dave Lambley)
+	* miyagawa now takes over the maintenance of ShipIt
 
 0.55 (2010-03-27)
 
