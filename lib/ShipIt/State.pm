@@ -96,7 +96,7 @@ sub add_changelog_file {
     push @{$self->{changelogs}}, $file;
 }
 
-=head2 add_changelog_file
+=head2 changelog_files
 
     @files = $state->changelog_files;
 
