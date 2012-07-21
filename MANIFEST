@@ -1,6 +1,6 @@
 AUTHORS
-CONTRIBUTING
 ChangeLog
+CONTRIBUTING
 lib/ShipIt.pm
 lib/ShipIt/Conf.pm
 lib/ShipIt/ProjectType.pm
@@ -23,12 +23,22 @@ lib/ShipIt/Step/UploadCPAN.pm
 lib/ShipIt/Util.pm
 lib/ShipIt/VC.pm
 lib/ShipIt/VC/Git.pm
+lib/ShipIt/VC/Mercurial.pm
 lib/ShipIt/VC/SVK.pm
 lib/ShipIt/VC/SVN.pm
-lib/ShipIt/VC/Mercurial.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
+README
 shipit
+t/data/Perl/01.pm
+t/data/Perl/02.pm
+t/data/Perl/03.pm
+t/data/Perl/04.pm
+t/data/Perl/05.pm
+t/data/Perl/06.pm
+t/data/Perl/07.pm
 t/svk-tagpattern.t
 t/svn-tagpattern.t
+t/version_from_file_perl.t
+t/version_from_line_perl.t
