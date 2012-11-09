@@ -23,7 +23,10 @@ for my $set (
     [ q{$xxx = 1; our $VERSION = qq(0.10);}, q{our $VERSION = qq(0.10)} ],
     [   q{use version; our $VERSION = qv('v1.5.0');},
         q{use version; our $VERSION = qv('v1.5.0')}
-    ]
+    ],
+    [   q{use version; our $VERSION = 'v1.5.0';},
+        q{use version; our $VERSION = 'v1.5.0'}
+    ],
     )
 {
     my $input    = $set->[0];
