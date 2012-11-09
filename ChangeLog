@@ -1,3 +1,6 @@
+0.58 (2012-11-09)
+	* Support our $VERSION = 'v1.0.0' construct per xdg
+	
 0.57 (2012-07-21)
 	* Fixed an issue with PAUSE
 
