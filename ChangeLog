@@ -1,3 +1,6 @@
+0.60 (2013-02-07)
+	* Same as 0.59. Make it non TRIAL :)
+
 0.59 (2013-02-07)
 	* Support TRIAL release for PAUSE with --trial command line option
 
