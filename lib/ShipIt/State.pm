@@ -135,6 +135,25 @@ quickly, without running entire test suite again.
 sub set_skip_tests { $_[0]{skiptests} = $_[1] }
 sub skip_tests     { $_[0]{skiptests}         }
 
+=head2 set_trial
+
+=head2 trial
+
+  $state->set_trial(1);
+  $trial = $state->trial;
+
+Setter/getter for whether to make a TRIAL release for PAUSE. Unlike
+using "_" in version strings to indicate developer releases, this way
+you can keep the normal version numbers everywhere in your code, but
+the final distribution file is renamed to C<-{version}-TRIAL.tar.gz>
+before uploading, which indicates that this is a trial/beta release.
+
+
+=cut
+
+sub set_trial { $_[0]{trial} = $_[1] }
+sub trial     { $_[0]{trial}         }
+
 =head2 set_distfile
 
 =head2 distfile

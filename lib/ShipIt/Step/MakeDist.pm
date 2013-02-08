@@ -19,6 +19,13 @@ sub run {
     my $pt   = $state->pt;
     my $file = $pt->makedist;
 
+    if ($state->trial) {
+        my $orig_file = $file;
+        $file =~ s/\.(tar\.gz|tgz|tar.bz2|tbz|zip)$/-TRIAL.$1/
+            or die "Distfile doesn't match supported archive format: $orig_file";
+        rename $orig_file, $file or die "Renaming $orig_file -> $file failed: $!";
+    }
+
     File::Copy::move($file, $self->{distdir})
         or die "Moving distfile $file to $self->{distdir} failed: $!\n";
 
