@@ -62,8 +62,7 @@ sub is_svk_co {
 sub is_svn_co {
     my $class = shift;
 
-    `svn info >/dev/null 2>/dev/null`;
-    return $! == 0;
+    return system("svn info >/dev/null 2>/dev/null") == 0;
 }
 
 =head1 ABSTRACT METHODS
