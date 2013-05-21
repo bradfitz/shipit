@@ -37,7 +37,7 @@ memoized (er, singleton) instance of ShipIt::VC->new.
 
 sub new {
     my ($class, $conf) = @_;
-    return ShipIt::VC::SVN->new($conf) if -e ".svn";
+    return ShipIt::VC::SVN->new($conf) if $class->is_svn_co;
     return ShipIt::VC::Git->new($conf) if -e ".git";
     return ShipIt::VC::Mercurial->new($conf) if -e ".hg";
     return ShipIt::VC::SVK->new($conf) if $class->is_svk_co;
@@ -57,6 +57,12 @@ sub is_svk_co {
 
     my $info = `yes | sed 's/y/n/' | svk info 2>&1`;
     return $info && $info =~ /Checkout Path/;
+}
+
+sub is_svn_co {
+    my $class = shift;
+
+    return system("svn info >/dev/null 2>/dev/null") == 0;
 }
 
 =head1 ABSTRACT METHODS
