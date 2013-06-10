@@ -33,7 +33,7 @@ sub disttest {
 
     $self->prepare_build;
     {
-        local $ENV{TEST_AUTHOR} = 1;
+        local $ENV{RELEASE_TESTING} = 1;
         $self->run_build('disttest') or die "Disttest failed";
     }
     $self->run_build('distclean') or die "Distclean failed";
