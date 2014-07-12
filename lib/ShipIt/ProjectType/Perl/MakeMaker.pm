@@ -42,6 +42,17 @@ sub disttest {
     my $missing_ignore = join "|", qw( ^META\.yml$ ^inc/ );
     @missing = grep { $_ !~ $missing_ignore } @missing;
 
+    # Module::Install::XSUtil also creates ppport.h automatically in make
+    {
+        open my $fh, '<', 'Makefile.PL' or die "Can't open Makefile.PL: $!";
+        my $f = do { local $/; <$fh> };
+        close $fh;
+
+        if ($f =~ /use_ppport/) {
+            @missing = grep { $_ ne 'ppport.h' } @missing;
+        }
+    }
+
     # I'm getting sick of making MANIFEST.SKIP files just for the
     # .shipit conf file and dh-make-perl stuff, so let's ignore those
     my %ignore = map { $_ => 1 } qw(
