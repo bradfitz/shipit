@@ -39,7 +39,7 @@ sub disttest {
     my @extra      = filecheck;
 
     # Module::Install creates inc/ in perl Makefile.PL and META.yml in make
-    my $missing_ignore = join "|", qw( ^META\.yml$ ^inc/ );
+    my $missing_ignore = join "|", qw( ^MYMETA.(json|yml)$ ^META\.yml$ ^inc/ );
     @missing = grep { $_ !~ $missing_ignore } @missing;
 
     # I'm getting sick of making MANIFEST.SKIP files just for the
