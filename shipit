@@ -37,6 +37,8 @@ unless (-e CONFFILE) {
         "Re-run with --write-config to get default config in \$EDITOR.\n";
 }
 
+$ENV{IN_RELENG} = 1;
+
 my $conf  = ShipIt::Conf->parse(CONFFILE);
 my $state = ShipIt::State->new($conf);
 $state->set_dry_run($opt_dry);
